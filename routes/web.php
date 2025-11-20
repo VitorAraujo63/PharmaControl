@@ -9,6 +9,7 @@ use App\Livewire\Dashboard;
 use App\Livewire\EditProduct;
 use App\Livewire\ListProducts;
 use App\Livewire\SalesHistory;
+use App\Livewire\StockEntry;
 use Illuminate\Support\Facades\Route;
 
 // --- ROTAS PÚBLICAS (LOGIN) ---
@@ -17,15 +18,25 @@ Route::post('/login', [EmployeeAuthController::class, 'login'])->name('login.sub
 Route::post('/logout', [EmployeeAuthController::class, 'logout'])->name('logout');
 
 // --- ROTAS PROTEGIDAS (DASHBOARD) ---
-Route::middleware(['auth'])->group(function () {
-    Route::get('/', Dashboard::class)->name('dashboard');
+Route::middleware(['auth', \App\Http\Middleware\CheckUserStatus::class])->group(function () {
+
+    Route::get('/', App\Livewire\Dashboard::class)->name('dashboard');
     Route::get('/venda', CreateSale::class)->name('venda');
 
-    Route::get('/produtos', ListProducts::class)->name('produtos.index');
-    Route::get('/produtos/novo', CreateProduct::class)->name('produtos.novo');
-    Route::get('/produtos/{product}/editar', EditProduct::class)->name('produtos.editar');
-    Route::get('/vendas/historico', SalesHistory::class)->name('vendas.historico');
+    Route::middleware(['can:manager-access'])->group(function () {
+        Route::get('/produtos', ListProducts::class)->name('produtos.index');
+        Route::get('/produtos/novo', CreateProduct::class)->name('produtos.novo');
+        Route::get('/produtos/{product}/editar', EditProduct::class)->name('produtos.editar');
+        Route::get('/estoque/entrada', StockEntry::class)->name('estoque.entrada');
+        Route::get('/vendas/historico', SalesHistory::class)->name('vendas.historico');
+    });
 
-    Route::get('/auditoria', AuditLogs::class)->name('auditoria');
-    Route::get('/venda/{id}/cupom', [CupomController::class, 'imprimir'])->name('venda.cupom');
+
+    Route::middleware(['can:admin-access'])->group(function () {
+        Route::get('/auditoria', AuditLogs::class)->name('auditoria');
+
+    });
+
 });
+
+

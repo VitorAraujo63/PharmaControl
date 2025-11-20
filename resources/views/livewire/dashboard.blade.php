@@ -1,6 +1,7 @@
 <div>
     <h1 class="text-3xl font-bold mb-8 text-gray-800">Dashboard Financeiro</h1>
 
+    @can('manager-access')
     @if($qtdAlertas > 0)
         <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded shadow-sm">
             <div class="flex items-start">
@@ -53,8 +54,18 @@
             </div>
         </div>
     @endif
+    <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg mb-8 shadow-sm">
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">👋 Bem-vindo(a), {{ auth()->user()->name }}!</h2>
+            <p class="text-blue-600 mb-4">Você está logado como <strong>Gerente</strong>.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <a href="/venda" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 shadow transition">
+                🛒 Abrir Frente de Caixa (PDV)
+            </a>
+        </div>
+    @endcan
+
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
         <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
             <h2 class="text-gray-500 text-sm uppercase font-bold">Faturamento Hoje</h2>
@@ -75,37 +86,36 @@
         </a>
     </div>
 
-    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-xl font-bold mb-4">Histórico de Faturamento</h2>
-
-        <div class="relative h-64 w-full"
-            x-data='{
-                init() {
-                    new Chart(this.$refs.canvas, {
-                        type: "bar",
-                        data: {
-                            labels: @json($labels),
-                            datasets: [{
-                                label: "Faturamento (R$)",
-                                data: @json($values),
-                                backgroundColor: "#4F46E5",
-                                borderRadius: 4,
-                                barThickness: 20
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: { beginAtZero: true }
-                            }
+    @can('manager-access')
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4">Histórico de Faturamento</h2>
+                <div class="relative h-64 w-full"
+                    x-data='{
+                        init() {
+                            new Chart(this.$refs.canvas, {
+                                type: "bar",
+                                data: {
+                                    labels: @json($labels),
+                                    datasets: [{
+                                        label: "Faturamento (R$)",
+                                        data: @json($values),
+                                        backgroundColor: "#4F46E5",
+                                        borderRadius: 4,
+                                        barThickness: 20
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    scales: { y: { beginAtZero: true } }
+                                }
+                            });
                         }
-                    });
-                }
-            }'>
-            <canvas x-ref="canvas"></canvas>
-        </div>
-    </div>
+                    }'>
+                    <canvas x-ref="canvas"></canvas>
+                </div>
+            </div>
+        @endcan
 
         <div class="bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-bold mb-4">Últimas Transações</h2>

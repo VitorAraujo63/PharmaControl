@@ -20,21 +20,31 @@
                         PDV (Venda)
                     </a>
 
+                    @can('manager-access')
                     <a href="{{ route('produtos.index') }}"
                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out
                     {{ request()->routeIs('produtos.*') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
                         Produtos
                     </a>
 
+
                     <a href="{{ route('vendas.historico') }}"
                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out {{ request()->routeIs('vendas.historico') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                         Vendas
                     </a>
 
+                    <a href="{{ route('estoque.entrada') }}"
+                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out {{ request()->routeIs('estoque.entrada') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                        Entrada de Nota
+                    </a>
+                    @endcan
+
+                    @can('admin-access')
                     <a href="{{ route('auditoria') }}"
                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out {{ request()->routeIs('vendas.historico') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                         Logs
                     </a>
+                    @endcan
 
                 </div>
             </div>
