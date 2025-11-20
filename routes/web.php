@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeAuthController;
+use App\Livewire\AuditLogs;
 use App\Livewire\CreateProduct;
 use App\Livewire\CreateSale;
 use App\Livewire\Dashboard;
@@ -23,4 +24,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/produtos/novo', CreateProduct::class)->name('produtos.novo');
     Route::get('/produtos/{product}/editar', EditProduct::class)->name('produtos.editar');
     Route::get('/vendas/historico', SalesHistory::class)->name('vendas.historico');
+
+    Route::get('/auditoria', AuditLogs::class)->name('auditoria');
 });

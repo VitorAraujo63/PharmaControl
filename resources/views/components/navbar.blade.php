@@ -28,7 +28,12 @@
 
                     <a href="{{ route('vendas.historico') }}"
                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out {{ request()->routeIs('vendas.historico') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
-                        Histórico
+                        Vendas
+                    </a>
+
+                    <a href="{{ route('auditoria') }}"
+                    class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out {{ request()->routeIs('vendas.historico') ? 'border-indigo-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                        Logs
                     </a>
 
                 </div>
