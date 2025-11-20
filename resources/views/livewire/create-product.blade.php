@@ -30,7 +30,15 @@
 
             <div>
                 <label class="block text-gray-700 text-sm font-bold mb-2">Preço de Venda (R$)</label>
-                <input wire:model="price" type="text" placeholder="0,00" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <div class="relative">
+                    <span class="absolute left-3 top-2 text-gray-500">R$</span>
+
+                    <input wire:model="price"
+                        x-on:input="$el.value = $el.value.replace(/[^0-9,]/g, '')"
+                        type="text"
+                        class="pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="0,00">
+                </div>
                 @error('price') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
         </div>

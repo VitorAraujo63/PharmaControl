@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CupomController;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Livewire\AuditLogs;
 use App\Livewire\CreateProduct;
@@ -26,4 +27,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/vendas/historico', SalesHistory::class)->name('vendas.historico');
 
     Route::get('/auditoria', AuditLogs::class)->name('auditoria');
+    Route::get('/venda/{id}/cupom', [CupomController::class, 'imprimir'])->name('venda.cupom');
 });

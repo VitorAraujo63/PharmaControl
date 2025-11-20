@@ -121,10 +121,17 @@
                         <span class="text-red-600 font-bold italic">Venda Cancelada em {{ $vendaSelecionada->updated_at->format('d/m/Y') }}</span>
                     @endif
 
+                    <a href="{{ route('venda.cupom', $vendaSelecionada->id) }}"
+                        target="_blank"
+                        class="bg-gray-700 text-white hover:bg-gray-800 px-4 py-2 rounded font-bold text-sm flex items-center gap-2 mr-2">
+                            Imprimir Cupom
+                        </a>
+
                     <div class="text-right">
                         <span class="text-xl font-bold {{ $vendaSelecionada->status === 'canceled' ? 'text-gray-400 line-through' : 'text-green-600' }} mr-4">
                             Total: R$ {{ number_format($vendaSelecionada->total_amount, 2, ',', '.') }}
                         </span>
+
                         <button wire:click="fecharDetalhes" class="bg-gray-500 text-white px-4 py-2 rounded">
                             Fechar
                         </button>
