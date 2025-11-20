@@ -23,9 +23,9 @@
             <div>
                 <label class="block font-bold">Forma de Pagamento</label>
                 <select wire:model="payment_method" class="w-full border p-2 rounded">
-                    <option value="money">Dinheiro</option>
-                    <option value="credit_card">Cartão de Crédito</option>
-                    <option value="pix">PIX</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="Cartão de crédito">Cartão de Crédito</option>
+                    <option value="Pix">PIX</option>
                 </select>
             </div>
         </div>

@@ -1,59 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💊 PharmaControl - ERP Farmacêutico Robusto
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 
-## About Laravel
+![Livewire](https://img.shields.io/badge/Livewire-3-4e56a6?style=for-the-badge&logo=livewire&logoColor=white)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![AlpineJS](https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+> Sistema de Gestão para Farmácias e Clínicas com controle avançado de estoque por Lotes (Batches), algoritmo PEPS (Primeiro a Entrar, Primeiro a Sair), PDV ágil e Auditoria de Segurança.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Sobre o Projeto
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+O **PharmaControl** foi desenvolvido para resolver o maior desafio do varejo farmacêutico: **Rastreabilidade e Validade**.
 
-## Laravel Sponsors
+Diferente de sistemas comuns que apenas contam quantidades, este projeto gerencia **Lotes de Validade**. Ao realizar uma venda, o sistema automaticamente baixa o estoque do lote que vence mais cedo (lógica FIFO/PEPS), garantindo eficiência logística e prevenindo perdas.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Principais Funcionalidades
 
-### Premium Partners
+* **📦 Gestão Inteligente de Estoque:** Controle de múltiplos lotes por produto.
+* **🔄 Algoritmo PEPS:** Baixa automática do lote mais antigo no momento da venda.
+* **🛒 PDV (Frente de Caixa):** Suporte a **Leitor de Código de Barras**, busca rápida e máscaras de input.
+* **🔐 ACL (Controle de Acesso):** Hierarquia de permissões (Admin, Gerente, Vendedor) via Laravel Gates.
+* **👮 Auditoria (Logs):** Rastreamento automático de quem criou, editou ou excluiu registros (usando Observers).
+* **📄 Cupom Não-Fiscal:** Geração de recibos formatados para impressoras térmicas (80mm).
+* **🛑 Segurança Ativa:** Middleware que derruba a sessão instantaneamente se o usuário for desativado.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🛠️ Arquitetura e Tecnologias
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+O projeto segue a arquitetura Monolítica Moderna (TALL Stack):
 
-## Code of Conduct
+* **Backend:** Laravel 12 (PHP 8.2+)
+* **Frontend:** Blade + Livewire 3 (Reatividade sem sair do PHP)
+* **Micro-interações:** Alpine.js (Modais, Máscaras, Gráficos)
+* **Estilização:** Tailwind CSS
+* **Banco de Dados:** MySQL
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Destaques de Código (Design Patterns)
+1.  **Service Pattern:** Regras de negócio complexas (como a baixa de estoque PEPS e o estorno de vendas) isoladas em `SaleService`.
+2.  **Database Transactions:** Garantia de integridade ACID nas vendas e cancelamentos.
+3.  **Observers:** Monitoramento silencioso de Models para gerar logs de auditoria.
+4.  **Scopes & Accessors:** Encapsulamento de lógica de consulta (ex: `total_stock` calculado dinamicamente).
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🧭 Rotas e Módulos do Sistema
 
-## License
+O sistema é protegido por autenticação e dividido por níveis de acesso (Roles).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 🟢 Acesso Geral (Todos os Logados)
+| Rota | Controller/Componente | Descrição |
+| :--- | :--- | :--- |
+| `/` | `Dashboard::class` | Visão geral. Vendedores veem resumo pessoal; Gerentes veem faturamento global. |
+| `/venda` | `CreateSale::class` | **PDV**. Frente de caixa com leitor de barras e carrinho de compras. |
+| `/vendas/historico` | `SalesHistory::class` | Histórico de vendas, filtros de data, reimpressão de cupom e cancelamento. |
+| `/venda/{id}/cupom` | `CupomController` | Gera o HTML minimalista para impressão térmica. |
+
+### 🔵 Acesso Gerencial (Gerentes e Admins)
+| Rota | Controller/Componente | Descrição |
+| :--- | :--- | :--- |
+| `/produtos` | `ListProducts::class` | Listagem de produtos com alerta visual de estoque baixo. |
+| `/produtos/novo` | `CreateProduct::class` | Cadastro de produtos com máscaras de preço. |
+| `/produtos/{id}/editar`| `EditProduct::class` | Edição de dados e **Gestão Manual de Lotes** (Ajuste de estoque). |
+| `/estoque/entrada` | `StockEntry::class` | Entrada de nota fiscal. Busca produto e lança novo lote/validade. |
+
+### 🔴 Acesso Administrativo (Apenas Admin)
+| Rota | Controller/Componente | Descrição |
+| :--- | :--- | :--- |
+| `/usuarios` | `ManageUsers::class` | CRUD de funcionários. Criação de contas e bloqueio de acesso (Status). |
+| `/auditoria` | `AuditLogs::class` | Visualização dos logs de segurança do sistema (Quem fez o quê). |
+
