@@ -23,8 +23,18 @@
                 </div>
             </div>
 
-            <div class="flex items-center">
-                <span class="text-sm text-gray-500">Admin</span>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden md:block">
+                    <div class="text-sm font-bold text-gray-700">{{ Auth::user()->name }}</div>
+                    <div class="text-xs text-green-600 font-bold uppercase">● Online</div>
+                </div>
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-sm text-red-600 hover:text-red-800 hover:underline">
+                        Sair
+                    </button>
+                </form>
             </div>
         </div>
     </div>

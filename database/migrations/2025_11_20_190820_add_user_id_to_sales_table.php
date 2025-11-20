@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
-        $table->id();
-        $table->string('client_name')->nullable();
-        $table->decimal('total_amount', 10, 2);
-        $table->string('payment_method')->default('money');
-        $table->timestamps();
+        Schema::table('sales', function (Blueprint $table) {
+        $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
     });
     }
 
@@ -25,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::table('sales', function (Blueprint $table) {
+        $table->dropForeign(['user_id']);
+        $table->dropColumn('user_id');
+    });
     }
 };

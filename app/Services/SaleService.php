@@ -15,6 +15,7 @@ class SaleService
         return DB::transaction(function () use ($saleData, $items) {
 
             $sale = Sale::create([
+                'user_id' => auth()->id(),
                 'client_name' => $saleData['client_name'] ?? 'Consumidor Final',
                 'payment_method' => $saleData['payment_method'],
                 'total_amount' => 0,

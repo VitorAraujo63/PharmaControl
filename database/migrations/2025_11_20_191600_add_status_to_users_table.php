@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
-        $table->id();
-        $table->string('client_name')->nullable();
-        $table->decimal('total_amount', 10, 2);
-        $table->string('payment_method')->default('money');
-        $table->timestamps();
-    });
+        Schema::table('users', function (Blueprint $table) {
+
+            $table->string('status')->default('ativo')->after('email');
+        });
     }
 
     /**
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };
