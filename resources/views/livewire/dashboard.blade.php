@@ -1,6 +1,59 @@
 <div>
     <h1 class="text-3xl font-bold mb-8 text-gray-800">Dashboard Financeiro</h1>
 
+    @if($qtdAlertas > 0)
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded shadow-sm">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </div>
+                <div class="ml-3 w-full">
+                    <h3 class="text-lg leading-6 font-medium text-red-800">
+                        Atenção: {{ $qtdAlertas }} Produtos com Estoque Baixo
+                    </h3>
+                    <div class="mt-2 text-sm text-red-700">
+                        <p class="mb-2">Os seguintes itens atingiram ou estão abaixo do nível mínimo de reposição:</p>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded border border-red-200">
+                                <thead class="bg-red-100">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-bold uppercase text-red-800">Produto</th>
+                                        <th class="px-4 py-2 text-center text-xs font-bold uppercase text-red-800">Mínimo</th>
+                                        <th class="px-4 py-2 text-center text-xs font-bold uppercase text-red-800">Atual</th>
+                                        <th class="px-4 py-2 text-right text-xs font-bold uppercase text-red-800">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($produtosBaixoEstoque as $prod)
+                                        <tr class="border-t border-red-100 hover:bg-red-50">
+                                            <td class="px-4 py-2 font-medium">{{ $prod->name }}</td>
+                                            <td class="px-4 py-2 text-center text-gray-500">{{ $prod->min_stock_alert }}</td>
+                                            <td class="px-4 py-2 text-center font-bold text-red-600">
+                                                {{ $prod->batches_sum_quantity ?? 0 }}
+                                            </td>
+                                            <td class="px-4 py-2 text-right">
+                                                <a href="{{ route('produtos.editar', $prod->id) }}" class="text-indigo-600 hover:text-indigo-900 font-bold underline">
+                                                    Repor
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @if($qtdAlertas > 10)
+                            <p class="mt-2 text-xs text-red-500 italic">E mais {{ $qtdAlertas - 10 }} produtos...</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
         <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
@@ -18,7 +71,7 @@
         </div>
 
         <a href="/venda" class="bg-indigo-600 p-6 rounded-lg shadow-md text-white flex items-center justify-center hover:bg-indigo-700 transition">
-            <span class="text-xl font-bold">+ Nova Venda (PDV)</span>
+            <span class="text-xl font-bold">+ Nova Venda</span>
         </a>
     </div>
 

@@ -15,27 +15,36 @@ class Dashboard extends Component
     public function render()
     {
 
-
-        $vendas = Sale::selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
+        $vendas = \App\Models\Sale::selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
             ->where('created_at', '>=', now()->subDays(7))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+            ->groupBy('date')->orderBy('date')->get();
 
         $labels = $vendas->pluck('date')->map(fn($date) => date('d/m', strtotime($date)));
-
         $values = $vendas->pluck('total');
 
-        $faturamentoHoje = Sale::whereDate('created_at', now())->sum('total_amount');
-        $qtdVendasHoje = Sale::whereDate('created_at', now())->count();
-        $ultimasVendas = Sale::latest()->take(5)->get();
+        $faturamentoHoje = \App\Models\Sale::whereDate('created_at', now())->sum('total_amount');
+        $qtdVendasHoje = \App\Models\Sale::whereDate('created_at', now())->count();
+        $ultimasVendas = \App\Models\Sale::latest()->take(5)->get();
+
+
+        $produtosBaixoEstoque = \App\Models\Product::withSum('batches', 'quantity')
+            ->havingRaw('COALESCE(batches_sum_quantity, 0) <= min_stock_alert')
+            ->orderBy('batches_sum_quantity', 'asc')
+            ->take(10)
+            ->get();
+
+        $qtdAlertas = \App\Models\Product::withSum('batches', 'quantity')
+            ->havingRaw('COALESCE(batches_sum_quantity, 0) <= min_stock_alert')
+            ->count();
 
         return view('livewire.dashboard', [
             'labels' => $labels,
             'values' => $values,
             'faturamentoHoje' => $faturamentoHoje,
             'qtdVendasHoje' => $qtdVendasHoje,
-            'ultimasVendas' => $ultimasVendas
+            'ultimasVendas' => $ultimasVendas,
+            'produtosBaixoEstoque' => $produtosBaixoEstoque, 
+            'qtdAlertas' => $qtdAlertas
         ]);
     }
 
