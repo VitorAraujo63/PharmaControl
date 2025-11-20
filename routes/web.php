@@ -6,6 +6,7 @@ use App\Livewire\CreateSale;
 use App\Livewire\Dashboard;
 use App\Livewire\EditProduct;
 use App\Livewire\ListProducts;
+use App\Livewire\SalesHistory;
 use Illuminate\Support\Facades\Route;
 
 // --- ROTAS PÚBLICAS (LOGIN) ---
@@ -21,4 +22,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/produtos', ListProducts::class)->name('produtos.index');
     Route::get('/produtos/novo', CreateProduct::class)->name('produtos.novo');
     Route::get('/produtos/{product}/editar', EditProduct::class)->name('produtos.editar');
+    Route::get('/vendas/historico', SalesHistory::class)->name('vendas.historico');
 });

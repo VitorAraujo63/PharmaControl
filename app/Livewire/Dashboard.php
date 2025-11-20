@@ -17,21 +17,29 @@ class Dashboard extends Component
 
         $vendas = \App\Models\Sale::selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
             ->where('created_at', '>=', now()->subDays(7))
-            ->groupBy('date')->orderBy('date')->get();
+            ->where('status', '!=', 'canceled')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
 
         $labels = $vendas->pluck('date')->map(fn($date) => date('d/m', strtotime($date)));
         $values = $vendas->pluck('total');
 
-        $faturamentoHoje = \App\Models\Sale::whereDate('created_at', now())->sum('total_amount');
-        $qtdVendasHoje = \App\Models\Sale::whereDate('created_at', now())->count();
+        $faturamentoHoje = \App\Models\Sale::whereDate('created_at', now())
+            ->where('status', '!=', 'canceled')
+            ->sum('total_amount');
+
+        $qtdVendasHoje = \App\Models\Sale::whereDate('created_at', now())
+            ->where('status', '!=', 'canceled')
+            ->count();
+
         $ultimasVendas = \App\Models\Sale::latest()->take(5)->get();
 
-
+        
         $produtosBaixoEstoque = \App\Models\Product::withSum('batches', 'quantity')
             ->havingRaw('COALESCE(batches_sum_quantity, 0) <= min_stock_alert')
             ->orderBy('batches_sum_quantity', 'asc')
-            ->take(10)
-            ->get();
+            ->take(10)->get();
 
         $qtdAlertas = \App\Models\Product::withSum('batches', 'quantity')
             ->havingRaw('COALESCE(batches_sum_quantity, 0) <= min_stock_alert')
@@ -43,7 +51,7 @@ class Dashboard extends Component
             'faturamentoHoje' => $faturamentoHoje,
             'qtdVendasHoje' => $qtdVendasHoje,
             'ultimasVendas' => $ultimasVendas,
-            'produtosBaixoEstoque' => $produtosBaixoEstoque, 
+            'produtosBaixoEstoque' => $produtosBaixoEstoque,
             'qtdAlertas' => $qtdAlertas
         ]);
     }

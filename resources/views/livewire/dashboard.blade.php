@@ -111,18 +111,31 @@
     <h2 class="text-xl font-bold mb-4">Últimas Transações</h2>
     <ul>
         @foreach($ultimasVendas as $venda)
-            <li class="border-b py-3 flex justify-between items-center hover:bg-gray-50 p-2 rounded cursor-pointer"
-                wire:click="verDetalhes({{ $venda->id }})"> <div>
-                    <span class="font-bold block">{{ $venda->client_name ?: 'Cliente Balcão' }}</span>
+            <li class="border-b py-3 flex justify-between items-center p-2 rounded cursor-pointer transition
+                    {{ $venda->status === 'canceled' ? 'bg-red-50' : 'hover:bg-gray-50' }}"
+                wire:click="verDetalhes({{ $venda->id }})">
+
+                <div>
+                    <span class="font-bold block flex items-center gap-2">
+                        {{ $venda->client_name ?: 'Cliente Balcão' }}
+
+                        @if($venda->status === 'canceled')
+                            <span class="text-[10px] bg-red-200 text-red-800 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                Cancelada
+                            </span>
+                        @endif
+                    </span>
+
                     <div class="text-xs text-gray-500">
                         Vendedor: {{ $venda->user->name ?? 'Sistema' }} • {{ $venda->created_at->diffForHumans() }}
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <span class="block font-mono text-green-600 font-bold">
+                    <span class="block font-mono font-bold {{ $venda->status === 'canceled' ? 'text-gray-400 line-through' : 'text-green-600' }}">
                         R$ {{ number_format($venda->total_amount, 2, ',', '.') }}
                     </span>
+
                     <span class="text-xs text-blue-500 underline">Ver detalhes</span>
                 </div>
             </li>

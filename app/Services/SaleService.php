@@ -65,4 +65,21 @@ class SaleService
             return $sale;
         });
     }
+
+    public function cancelSale(Sale $sale): Sale
+    {
+        if ($sale->status === 'canceled') {
+            throw new Exception("Esta venda já foi cancelada anteriormente.");
+        }
+
+        return DB::transaction(function () use ($sale) {
+            foreach ($sale->items as $item) {
+                $item->batch->increment('quantity', $item->quantity);
+            }
+
+            $sale->update(['status' => 'canceled']);
+
+            return $sale;
+        });
+    }
 }
