@@ -56,7 +56,7 @@
     @endif
     <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg mb-8 shadow-sm">
             <h2 class="text-2xl font-bold text-blue-800 mb-2">👋 Bem-vindo(a), {{ auth()->user()->name }}!</h2>
-            <p class="text-blue-600 mb-4">Você está logado como <strong>Gerente</strong>.</p>
+            <p class="text-blue-600 mb-4">Você está logado como <strong>{{ auth()->user()->role}}</strong>.</p>
 
             <a href="/venda" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 shadow transition">
                 🛒 Abrir Frente de Caixa (PDV)
