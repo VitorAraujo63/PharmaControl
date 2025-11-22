@@ -107,6 +107,9 @@
                                 <a href="{{ route('auditoria') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     Logs de alteração
                                 </a>
+                                <a href="{{ route('sistema.alertas') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Disparar Alerta de Validade
+                                </a>
                             </div>
                         </div>
                     @endcan

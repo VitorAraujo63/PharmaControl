@@ -16,6 +16,7 @@ use App\Livewire\StockEntry;
 use App\Livewire\TwoFactorChallenge;
 use App\Livewire\TwoFactorManage;
 use App\Livewire\UserProfile;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // --- ROTAS PÚBLICAS (LOGIN) ---
@@ -44,6 +45,12 @@ Route::middleware(['auth', CheckUserStatus::class, '2fa'])->group(function () {
     Route::middleware(['can:admin-access'])->group(function () {
         Route::get('/auditoria', AuditLogs::class)->name('auditoria');
         Route::get('/usuarios', ManageUsers::class)->name('usuarios.index');
+
+        Route::get('/sistema/disparar-alertas', function () {
+            Artisan::call('alerts:send-expiration');
+
+            return back()->with('success', 'Verificação de validade executada! Se houver itens vencendo, o e-mail foi enviado.');
+        })->name('sistema.alertas');
     });
 
 });
