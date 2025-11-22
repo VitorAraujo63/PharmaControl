@@ -102,21 +102,38 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">Cargo</label>
-                            <select wire:model="role" class="w-full border rounded p-2">
-                                <option value="cashier">Vendedor</option>
-                                <option value="manager">Gerente</option>
-                                <option value="admin">Administrador</option>
-                            </select>
-                            @error('role') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Cargo</label>
+
+                        @php
+                            $isSelf = $user_id_editing === auth()->id();
+                        @endphp
+
+                        <select wire:model="role" class="w-full border rounded p-2 {{ $isSelf ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : '' }}" @disabled($isSelf)>
+                            <option value="cashier">Vendedor</option>
+                            <option value="manager">Gerente</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+
+                        @if($isSelf)
+                            <span class="text-xs text-orange-600 block mt-1">Você não pode alterar seu próprio cargo.</span>
+                        @endif
+
+                        @error('role') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Status</label>
-                            <select wire:model="status" class="w-full border rounded p-2">
+
+                            <select wire:model="status" class="w-full border rounded p-2 {{ $isSelf ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : '' }}" @disabled($isSelf)>
                                 <option value="ativo">Ativo</option>
                                 <option value="inativo">Inativo (Bloqueado)</option>
                             </select>
+
+                            @if($isSelf)
+                                <span class="text-xs text-orange-600 block mt-1">Você não pode se desativar.</span>
+                            @endif
+
                             @error('status') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                     </div>
