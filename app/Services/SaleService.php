@@ -16,6 +16,7 @@ class SaleService
 
             $sale = Sale::create([
                 'user_id' => auth()->id(),
+                'customer_id' => $saleData['customer_id'] ?? null,
                 'client_name' => $saleData['client_name'] ?? 'Consumidor Final',
                 'payment_method' => $saleData['payment_method'],
                 'total_amount' => 0,

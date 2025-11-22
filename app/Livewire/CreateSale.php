@@ -48,11 +48,15 @@ class CreateSale extends Component
             'items.*.quantity' => 'required|integer|min:1',
         ]);
 
+        $customerId = $this->selectedCustomer ? $this->selectedCustomer->id : null;
+
+
+
         try {
             $saleService->createSale(
                 [
-                    'client_name' => $this->selectedCustomer ? $this->selectedCustomer->name : ($this->client_name ?? 'Consumidor Final'),
-                    'customer_id' => $this->selectedCustomer?->id,
+                    'client_name' => $this->selectedCustomer ? $this->selectedCustomer->name : ($this->client_name ?? 'Consumidor'),
+                    'customer_id' => $customerId,
                     'payment_method' => $this->payment_method
                 ],
                 $this->items
@@ -106,13 +110,15 @@ class CreateSale extends Component
     {
         $this->validate([
             'new_c_name' => 'required|min:3',
-            'new_c_cpf' => 'nullable|unique:customers,cpf', // Validação de CPF único
-            'new_c_phone' => 'nullable',
+            'new_c_cpf'  => 'nullable',
+            'new_c_phone'=> 'nullable',
         ]);
 
-        $customer = Customer::create([
-            'name' => $this->new_c_name,
-            'cpf' => $this->new_c_cpf,
+        $cpfLimpo = $this->new_c_cpf ? preg_replace('/[^0-9]/', '', $this->new_c_cpf) : null;
+
+        $customer = \App\Models\Customer::create([
+            'name'  => strtoupper($this->new_c_name), // Força maiúsculo para ficar bonito no cupom
+            'cpf'   => $cpfLimpo,
             'phone' => $this->new_c_phone,
         ]);
 
@@ -122,7 +128,7 @@ class CreateSale extends Component
         $this->showCustomerModal = false;
         $this->reset(['new_c_name', 'new_c_cpf', 'new_c_phone']);
 
-        session()->flash('success_modal', 'Cliente cadastrado e selecionado!');
+        session()->flash('success_modal', 'Cliente cadastrado!');
     }
 
 }
