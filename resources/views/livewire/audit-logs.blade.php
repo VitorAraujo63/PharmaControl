@@ -1,5 +1,5 @@
 <div class="max-w-7xl mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">👮 Logs de Auditoria</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Logs de alteração</h1>
 
     <div class="bg-white p-4 rounded-lg shadow-sm mb-6 flex gap-4">
         <div class="w-1/3">

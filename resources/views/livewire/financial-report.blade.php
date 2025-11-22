@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto px-4 py-8">
 
     <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">📈 Relatório de Lucratividade Real</h1>
+        <h1 class="text-3xl font-bold text-gray-800">Relatório de Lucratividade Real</h1>
 
         <button wire:click="export" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded shadow flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>

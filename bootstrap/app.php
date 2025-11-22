@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckTwoFactor;
 use App\Http\Middleware\CheckUserStatus;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -12,10 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-
-        // Adicione a linha abaixo dentro do appendToGroup 'web'
         $middleware->appendToGroup('web', [
             CheckUserStatus::class,
+        ]);
+
+        $middleware->alias([
+            '2fa' => CheckTwoFactor::class,
         ]);
 
     })
