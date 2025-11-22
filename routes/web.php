@@ -8,6 +8,7 @@ use App\Livewire\CreateProduct;
 use App\Livewire\CreateSale;
 use App\Livewire\Dashboard;
 use App\Livewire\EditProduct;
+use App\Livewire\FinancialReport;
 use App\Livewire\ListProducts;
 use App\Livewire\ManageUsers;
 use App\Livewire\SalesHistory;
@@ -32,6 +33,7 @@ Route::middleware(['auth', CheckUserStatus::class])->group(function () {
         Route::get('/estoque/entrada', StockEntry::class)->name('estoque.entrada');
         Route::get('/vendas/historico', SalesHistory::class)->name('vendas.historico');
         Route::get('/venda/{id}/cupom', [CupomController::class, 'imprimir'])->name('venda.cupom');
+        Route::get('/relatorios/financeiro', FinancialReport::class)->name('relatorios.financeiro');
     });
 
 
