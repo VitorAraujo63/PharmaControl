@@ -33,9 +33,9 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         port: 22
-        script_stop: true
         script: |
           cd /var/www/pharmacontrol
+          set -e
           
           php artisan down --retry=60
           
