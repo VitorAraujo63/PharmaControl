@@ -63,7 +63,20 @@
                     class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 shadow-lg">
                     ENTRAR
                 </button>
+
+
+                    
             </form>
+
+            <br>
+            <center>
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                        {{ __('Esqueceu sua senha?') }}
+                    </a>
+                @endif
+            </center>
+            
         </div>
 
         <div class="bg-gray-50 px-8 py-4 text-center text-xs text-gray-500 border-t">

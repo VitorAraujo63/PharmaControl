@@ -9,7 +9,7 @@
                         <span>PharmaControl</span>
                     </a>
                 </div>
-
+            @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
 
                     <a href="{{ route('dashboard') }}"
@@ -116,13 +116,18 @@
 
                 </div>
             </div>
-
+            
+            
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <div class="relative" x-data="{ openUser: false }">
                     <button @click="openUser = !openUser" @click.away="openUser = false" class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out">
                         <div class="text-right mr-2">
-                            <div class="font-bold text-gray-800">{{ Auth::user()->name }}</div>
-                            <div class="text-xs text-gray-400 uppercase">{{ Auth::user()->role }}</div>
+                            
+                                <div class="font-bold text-gray-800">{{ Auth::user()->name }}</div>
+                                <div class="text-xs text-gray-400 uppercase">{{ Auth::user()->role }}</div>
+                            
+                            
+                            
                         </div>
                         <div class="ml-1">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -130,6 +135,7 @@
                             </svg>
                         </div>
                     </button>
+            @endauth
 
                     <div x-show="openUser"
                          x-transition:enter="transition ease-out duration-200"

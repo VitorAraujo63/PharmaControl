@@ -3,6 +3,7 @@
 use App\Http\Controllers\CupomController;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Middleware\CheckUserStatus;
+use App\Http\Controllers\PasswordResetController;
 use App\Livewire\AuditLogs;
 use App\Livewire\CreateProduct;
 use App\Livewire\CreateSale;
@@ -18,6 +19,7 @@ use App\Livewire\TwoFactorManage;
 use App\Livewire\UserProfile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
 
 // --- ROTAS PÚBLICAS (LOGIN) ---
 Route::get('/login', [EmployeeAuthController::class, 'showLoginForm'])->name('login');
@@ -67,4 +69,10 @@ Route::middleware(['auth', CheckUserStatus::class])->group(function () {
 
 });
 
+Route::middleware('guest')->group(function () {
+    Route::get('/forgot-password', [PasswordResetController::class, 'requestForm'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
 
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'resetForm'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->name('password.update');
+});
