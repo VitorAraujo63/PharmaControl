@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - PharmaControl</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <meta name="theme-color" content="#3b82f6"/>
+    
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    
+    <link rel="apple-touch-icon" href="{{ asset('img/icon-192x192.png') }}">
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
 
@@ -64,6 +70,18 @@
             &copy; {{ date('Y') }} PharmaControl System. Todos os direitos reservados.
         </div>
     </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('PWA ServiceWorker registrado com sucesso: ', registration.scope);
+                }, function(err) {
+                    console.log('Falha ao registrar PWA ServiceWorker: ', err);
+                });
+            });
+        }
+    </script>
 
 </body>
 </html>
