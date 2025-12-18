@@ -9,8 +9,14 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700">E-mail</label>
-                    <input type="email" name="email" required class="w-full border p-2 rounded mt-1" 
-                           value="{{ request()->email }}"> @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    <input type="email" 
+                        name="email" 
+                        required 
+                        readonly 
+                        class="w-full border p-2 rounded mt-1 bg-gray-200 text-gray-500 cursor-not-allowed" {{-- Estilo visual de travado --}}
+                        value="{{ request()->email }}">
+                    
+                    @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="mb-4">
