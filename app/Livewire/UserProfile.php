@@ -2,19 +2,23 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class UserProfile extends Component
 {
     public $name;
+
     public $email;
+
     public $current_password;
+
     public $password;
+
     public $password_confirmation;
 
     public function mount()

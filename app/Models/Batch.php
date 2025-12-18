@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
 
 class Batch extends Model
 {
@@ -22,6 +22,6 @@ class Batch extends Model
     public function scopeAvailable(Builder $query): void
     {
         $query->where('quantity', '>', 0)
-              ->where('expiration_date', '>=', now());
+            ->where('expiration_date', '>=', now());
     }
 }

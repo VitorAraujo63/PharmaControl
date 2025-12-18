@@ -2,36 +2,41 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Product;
 use App\Models\Batch;
+use App\Models\Product;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class StockEntry extends Component
 {
     public $search = '';
+
     public $searchResults = [];
+
     public ?Product $selectedProduct = null;
 
     public $batch_code;
+
     public $quantity;
+
     public $expiration_date;
+
     public $cost_price;
 
     public function updatedSearch()
     {
         if (strlen($this->search) < 2) {
             $this->searchResults = [];
+
             return;
         }
 
-        $this->searchResults = Product::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('sku', 'like', '%' . $this->search . '%')
+        $this->searchResults = Product::where('name', 'like', '%'.$this->search.'%')
+            ->orWhere('sku', 'like', '%'.$this->search.'%')
             ->take(5)
             ->get();
     }
-
 
     public function selectProduct($id)
     {
@@ -51,7 +56,7 @@ class StockEntry extends Component
             'cost_price' => 'required',
         ], [
             'selectedProduct.required' => 'Por favor, pesquise e selecione um produto antes.',
-            'expiration_date.after' => 'A validade deve ser uma data futura.'
+            'expiration_date.after' => 'A validade deve ser uma data futura.',
         ]);
 
         $cost = str_replace(',', '.', str_replace('.', '', $this->cost_price));
@@ -65,7 +70,6 @@ class StockEntry extends Component
         ]);
 
         session()->flash('success', "Estoque adicionado para {$this->selectedProduct->name}!");
-
 
         $this->reset(['batch_code', 'quantity', 'expiration_date', 'cost_price', 'selectedProduct', 'search', 'searchResults']);
     }

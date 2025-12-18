@@ -2,10 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
 use App\Models\Sale;
-use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class Dashboard extends Component
@@ -22,7 +21,7 @@ class Dashboard extends Component
             ->orderBy('date')
             ->get();
 
-        $labels = $vendas->pluck('date')->map(fn($date) => date('d/m', strtotime($date)));
+        $labels = $vendas->pluck('date')->map(fn ($date) => date('d/m', strtotime($date)));
         $values = $vendas->pluck('total');
 
         $faturamentoHoje = \App\Models\Sale::whereDate('created_at', now())
@@ -35,7 +34,6 @@ class Dashboard extends Component
 
         $ultimasVendas = \App\Models\Sale::latest()->take(5)->get();
 
-        
         $produtosBaixoEstoque = \App\Models\Product::withSum('batches', 'quantity')
             ->havingRaw('COALESCE(batches_sum_quantity, 0) <= min_stock_alert')
             ->orderBy('batches_sum_quantity', 'asc')
@@ -52,7 +50,7 @@ class Dashboard extends Component
             'qtdVendasHoje' => $qtdVendasHoje,
             'ultimasVendas' => $ultimasVendas,
             'produtosBaixoEstoque' => $produtosBaixoEstoque,
-            'qtdAlertas' => $qtdAlertas
+            'qtdAlertas' => $qtdAlertas,
         ]);
     }
 

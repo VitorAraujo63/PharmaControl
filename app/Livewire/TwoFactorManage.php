@@ -2,27 +2,31 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use PragmaRX\Google2FA\Google2FA;
-use Illuminate\Support\Facades\Auth;
-use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use PragmaRX\Google2FA\Google2FA;
 
 #[Layout('layouts.app')]
 class TwoFactorManage extends Component
 {
     public $secret;
+
     public $qrCodeUrl;
+
     public $qrCodeSvg;
+
     public $code;
+
     public $showQrCode = false;
 
     public function enableTwoFactor()
     {
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
 
         $this->secret = $google2fa->generateSecretKey();
 
@@ -33,7 +37,7 @@ class TwoFactorManage extends Component
         );
         $renderer = new ImageRenderer(
             new RendererStyle(200),
-            new SvgImageBackEnd()
+            new SvgImageBackEnd
         );
 
         $writer = new Writer($renderer);
@@ -45,7 +49,7 @@ class TwoFactorManage extends Component
 
     public function confirmTwoFactor()
     {
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
 
         $valid = $google2fa->verifyKey($this->secret, $this->code);
 

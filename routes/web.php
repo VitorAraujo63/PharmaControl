@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\CupomController;
 use App\Http\Controllers\EmployeeAuthController;
-use App\Http\Middleware\CheckUserStatus;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Middleware\CheckUserStatus;
 use App\Livewire\AuditLogs;
 use App\Livewire\CreateProduct;
 use App\Livewire\CreateSale;
@@ -19,7 +19,6 @@ use App\Livewire\TwoFactorManage;
 use App\Livewire\UserProfile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-
 
 // --- ROTAS PÚBLICAS (LOGIN) ---
 Route::get('/login', [EmployeeAuthController::class, 'showLoginForm'])->name('login');
@@ -43,7 +42,6 @@ Route::middleware(['auth', CheckUserStatus::class, '2fa'])->group(function () {
         Route::get('/relatorios/financeiro', FinancialReport::class)->name('relatorios.financeiro');
     });
 
-
     Route::middleware(['can:admin-access'])->group(function () {
         Route::get('/auditoria', AuditLogs::class)->name('auditoria');
         Route::get('/usuarios', ManageUsers::class)->name('usuarios.index');
@@ -58,7 +56,6 @@ Route::middleware(['auth', CheckUserStatus::class, '2fa'])->group(function () {
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->group(function () {
-
 
     Route::get('/seguranca/2fa', TwoFactorManage::class)
         ->middleware('2fa')

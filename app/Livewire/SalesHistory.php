@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\Sale;
 use App\Services\SaleService;
-use Livewire\Attributes\Layout;
 use Carbon\Carbon;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
 class SalesHistory extends Component
@@ -15,7 +15,9 @@ class SalesHistory extends Component
     use WithPagination;
 
     public $start_date;
+
     public $end_date;
+
     public $search_client = '';
 
     public ?Sale $vendaSelecionada = null;
@@ -26,9 +28,20 @@ class SalesHistory extends Component
         $this->end_date = Carbon::now()->endOfMonth()->format('Y-m-d');
     }
 
-    public function updatedStartDate() { $this->resetPage(); }
-    public function updatedEndDate() { $this->resetPage(); }
-    public function updatedSearchClient() { $this->resetPage(); }
+    public function updatedStartDate()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedEndDate()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSearchClient()
+    {
+        $this->resetPage();
+    }
 
     public function verDetalhes($id)
     {
@@ -46,13 +59,12 @@ class SalesHistory extends Component
             ->with('user')
             ->whereDate('created_at', '>=', $this->start_date)
             ->whereDate('created_at', '<=', $this->end_date)
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->where('client_name', 'like', '%'.$this->search_client.'%')
-                      ->orWhere('id', 'like', '%'.$this->search_client.'%');
+                    ->orWhere('id', 'like', '%'.$this->search_client.'%');
             })
             ->latest()
             ->paginate(15);
-
 
         $totalPeriodo = Sale::whereDate('created_at', '>=', $this->start_date)
             ->whereDate('created_at', '<=', $this->end_date)
@@ -60,7 +72,7 @@ class SalesHistory extends Component
 
         return view('livewire.sales-history', [
             'sales' => $sales,
-            'totalPeriodo' => $totalPeriodo
+            'totalPeriodo' => $totalPeriodo,
         ]);
     }
 
@@ -69,7 +81,9 @@ class SalesHistory extends Component
         try {
             $sale = Sale::find($saleId);
 
-            if (!$sale) return;
+            if (! $sale) {
+                return;
+            }
 
             $service->cancelSale($sale);
 
@@ -77,7 +91,7 @@ class SalesHistory extends Component
             session()->flash('success', "Venda #{$saleId} cancelada e estoque estornado com sucesso!");
 
         } catch (\Exception $e) {
-            session()->flash('error', "Erro ao cancelar: " . $e->getMessage());
+            session()->flash('error', 'Erro ao cancelar: '.$e->getMessage());
         }
     }
 }

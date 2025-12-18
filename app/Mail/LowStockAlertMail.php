@@ -13,6 +13,7 @@ class LowStockAlertMail extends Mailable
     use Queueable, SerializesModels;
 
     public $expiring14;
+
     public $expiring30;
 
     public function __construct($expiring14, $expiring30)

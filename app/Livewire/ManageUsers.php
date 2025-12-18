@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\User;
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
 class ManageUsers extends Component
@@ -17,15 +17,23 @@ class ManageUsers extends Component
     public $search = '';
 
     public $user_id_editing = null;
+
     public $name;
+
     public $email;
+
     public $password;
+
     public $role = 'cashier';
+
     public $status = 'ativo';
 
     public $showModal = false;
 
-    public function updatedSearch() { $this->resetPage(); }
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function create()
     {
@@ -50,61 +58,62 @@ class ManageUsers extends Component
     }
 
     public function save()
-{
-    $rules = [
-        'name' => 'required|min:3',
-        'email' => ['required', 'email', Rule::unique('users')->ignore($this->user_id_editing)],
-    ];
+    {
+        $rules = [
+            'name' => 'required|min:3',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user_id_editing)],
+        ];
 
-    if ($this->user_id_editing !== auth()->id()) {
-        $rules['role'] = 'required|in:admin,manager,cashier';
-        $rules['status'] = 'required|in:ativo,inativo';
+        if ($this->user_id_editing !== auth()->id()) {
+            $rules['role'] = 'required|in:admin,manager,cashier';
+            $rules['status'] = 'required|in:ativo,inativo';
+        }
+
+        if ($this->user_id_editing) {
+            $rules['password'] = 'nullable|min:6';
+        } else {
+            $rules['password'] = 'required|min:6';
+        }
+
+        $this->validate($rules);
+
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+
+        if ($this->user_id_editing === auth()->id()) {
+        } else {
+
+            $data['role'] = $this->role;
+            $data['status'] = $this->status;
+        }
+
+        if (! empty($this->password)) {
+            $data['password'] = Hash::make($this->password);
+        }
+
+        if ($this->user_id_editing) {
+            $user = User::find($this->user_id_editing);
+            $user->update($data);
+            session()->flash('success', 'Usuário atualizado com sucesso!');
+        } else {
+            $data['role'] = $this->role;
+            $data['status'] = $this->status;
+
+            User::create($data);
+            session()->flash('success', 'Novo funcionário cadastrado!');
+        }
+
+        $this->showModal = false;
     }
-
-    if ($this->user_id_editing) {
-        $rules['password'] = 'nullable|min:6';
-    } else {
-        $rules['password'] = 'required|min:6';
-    }
-
-    $this->validate($rules);
-
-    $data = [
-        'name' => $this->name,
-        'email' => $this->email,
-    ];
-
-    if ($this->user_id_editing === auth()->id()) {
-    } else {
-
-        $data['role'] = $this->role;
-        $data['status'] = $this->status;
-    }
-
-    if (!empty($this->password)) {
-        $data['password'] = Hash::make($this->password);
-    }
-
-    if ($this->user_id_editing) {
-        $user = User::find($this->user_id_editing);
-        $user->update($data);
-        session()->flash('success', 'Usuário atualizado com sucesso!');
-    } else {
-        $data['role'] = $this->role;
-        $data['status'] = $this->status;
-
-        User::create($data);
-        session()->flash('success', 'Novo funcionário cadastrado!');
-    }
-
-    $this->showModal = false;
-}
 
     public function delete($id)
     {
 
         if ($id == auth()->id()) {
             session()->flash('error', 'Você não pode excluir sua própria conta!');
+
             return;
         }
 
@@ -121,7 +130,7 @@ class ManageUsers extends Component
             ->paginate(10);
 
         return view('livewire.manage-users', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 }

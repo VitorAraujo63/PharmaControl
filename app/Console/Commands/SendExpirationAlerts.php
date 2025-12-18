@@ -2,16 +2,17 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use App\Mail\LowStockAlertMail;
 use App\Models\Batch;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\LowStockAlertMail;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class SendExpirationAlerts extends Command
 {
     protected $signature = 'alerts:send-expiration';
+
     protected $description = 'Verifica produtos vencendo e envia e-mail para admins';
 
     public function handle()
@@ -34,6 +35,7 @@ class SendExpirationAlerts extends Command
 
         if ($expiring14->isEmpty() && $expiring30->isEmpty()) {
             $this->info('Nenhum produto próximo do vencimento.');
+
             return;
         }
 
@@ -43,6 +45,7 @@ class SendExpirationAlerts extends Command
 
         if ($recipients->isEmpty()) {
             $this->error('Nenhum destinatário encontrado.');
+
             return;
         }
 

@@ -5,10 +5,10 @@ namespace App\Providers;
 use App\Models\Batch;
 use App\Models\Product;
 use App\Models\Sale;
-use App\Observers\AuditObserver;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use App\Observers\AuditObserver;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,11 +30,11 @@ class AppServiceProvider extends ServiceProvider
         Sale::observe(AuditObserver::class);
 
         Gate::define('admin-access', function (User $user) {
-        return $user->role === 'admin';
+            return $user->role === 'admin';
         });
 
         Gate::define('manager-access', function (User $user) {
-        return in_array($user->role, ['admin', 'manager']);
+            return in_array($user->role, ['admin', 'manager']);
         });
     }
 }

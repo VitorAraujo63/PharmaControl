@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\Product;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
 class ListProducts extends Component
@@ -13,7 +13,6 @@ class ListProducts extends Component
     use WithPagination;
 
     public $search = '';
-
 
     public function updatedSearch()
     {
@@ -24,15 +23,15 @@ class ListProducts extends Component
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             return;
         }
 
         if ($product->saleItems()->exists()) {
             session()->flash('error', 'Não é possível excluir este produto pois ele já possui vendas registradas.');
+
             return;
         }
-
 
         $product->delete();
         session()->flash('success', 'Produto eliminado com sucesso.');
@@ -41,13 +40,13 @@ class ListProducts extends Component
     public function render()
     {
         $products = Product::query()
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('sku', 'like', '%' . $this->search . '%')
+            ->where('name', 'like', '%'.$this->search.'%')
+            ->orWhere('sku', 'like', '%'.$this->search.'%')
             ->orderBy('name')
             ->paginate(10);
 
         return view('livewire.list-products', [
-            'products' => $products
+            'products' => $products,
         ]);
     }
 }

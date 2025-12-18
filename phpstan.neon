@@ -1,0 +1,13 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+
+    # Level 9 é o mais rigoroso. O 5 é ideal para projetos existentes.
+    level: 5
+
+    # Ignorar erros comuns que podem ser falsos positivos no início
+    # ignoreErrors:
+    #    - '#Unsafe usage of new static#'

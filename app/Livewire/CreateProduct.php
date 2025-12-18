@@ -2,27 +2,32 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
+use App\Models\Batch;
 use App\Models\Product;
-use App\Models\Batch; 
 use Livewire\Attributes\Layout;
-use Illuminate\Support\Str;
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class CreateProduct extends Component
 {
-
     public $name;
+
     public $sku;
+
     public $description;
+
     public $price;
+
     public $min_stock_alert = 10;
 
-
     public $add_initial_stock = false;
+
     public $initial_quantity;
+
     public $cost_price;
+
     public $expiration_date;
+
     public $batch_code;
 
     public function save()

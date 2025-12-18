@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('batches', function (Blueprint $table) {
-        $table->id();
+            $table->id();
 
-        $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
 
-        $table->string('batch_code');
-        $table->integer('quantity');
-        $table->decimal('cost_price', 10, 2);
-        $table->date('expiration_date');
+            $table->string('batch_code');
+            $table->integer('quantity');
+            $table->decimal('cost_price', 10, 2);
+            $table->date('expiration_date');
 
-        $table->timestamps();
-    });
+            $table->timestamps();
+        });
     }
 
     /**
