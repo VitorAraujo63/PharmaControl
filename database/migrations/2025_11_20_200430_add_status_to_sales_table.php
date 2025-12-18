@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sales', function (Blueprint $table) {
-        $table->string('status')->default('completed')->after('payment_method');
-    });
+            $table->string('status')->default('completed')->after('payment_method');
+        });
     }
 
     /**
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('sales', function (Blueprint $table) {
-        $table->dropColumn('status');
+            $table->dropColumn('status');
         });
     }
 };

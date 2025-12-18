@@ -2,27 +2,33 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Product;
 use App\Models\Batch;
-use Livewire\Attributes\Layout;
+use App\Models\Product;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class EditProduct extends Component
 {
     public Product $product;
 
-
     public $name;
+
     public $sku;
+
     public $description;
+
     public $price;
+
     public $min_stock_alert;
 
     public $new_batch_code;
+
     public $new_quantity;
+
     public $new_expiration_date;
+
     public $new_cost_price;
 
     public function mount(Product $product)
@@ -55,6 +61,7 @@ class EditProduct extends Component
         ]);
 
         session()->flash('success', 'Produto atualizado com sucesso!');
+
         return redirect()->route('produtos.index');
     }
 
@@ -86,10 +93,13 @@ class EditProduct extends Component
     {
         $batch = Batch::find($batchId);
 
-        if (!$batch) return;
+        if (! $batch) {
+            return;
+        }
 
         if (\App\Models\SaleItem::where('batch_id', $batchId)->exists()) {
             session()->flash('batch_error', 'Não é possível excluir este lote pois já existem vendas dele.');
+
             return;
         }
 

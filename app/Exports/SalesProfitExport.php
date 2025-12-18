@@ -3,16 +3,18 @@
 namespace App\Exports;
 
 use App\Models\SaleItem;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\Exportable;
+use \Illuminate\Database\Eloquent\Builder as builder;
 
 class SalesProfitExport implements FromQuery, WithHeadings, WithMapping
 {
     use Exportable;
 
     protected $startDate;
+
     protected $endDate;
 
     public function __construct($startDate, $endDate)
@@ -21,15 +23,16 @@ class SalesProfitExport implements FromQuery, WithHeadings, WithMapping
         $this->endDate = $endDate;
     }
 
-    public function query()
+    public function query(): builder
     {
         return SaleItem::query()
             ->with(['sale', 'product', 'batch'])
             ->whereHas('sale', function ($query) {
-                $query->whereBetween('created_at', [$this->startDate . ' 00:00:00', $this->endDate . ' 23:59:59'])
-                      ->where('status', '!=', 'canceled');
+                $query->whereBetween('created_at', [$this->startDate.' 00:00:00', $this->endDate.' 23:59:59'])
+                    ->where('status', '!=', 'canceled');
             });
     }
+
     public function headings(): array
     {
         return [
@@ -42,7 +45,7 @@ class SalesProfitExport implements FromQuery, WithHeadings, WithMapping
             'Subtotal Venda',
             'Custo Total',
             'LUCRO REAL',
-            'Margem %'
+            'Margem %',
         ];
     }
 
@@ -64,7 +67,7 @@ class SalesProfitExport implements FromQuery, WithHeadings, WithMapping
             $item->subtotal,
             $custoTotal,
             $lucro,
-            number_format($margem, 2) . '%'
+            number_format($margem, 2).'%',
         ];
     }
 }

@@ -13,7 +13,7 @@ class CheckTwoFactor
     {
         $user = Auth::user();
 
-        if (!$user || is_null($user->google2fa_secret)) {
+        if (! $user || is_null($user->google2fa_secret)) {
             return $next($request);
         }
 

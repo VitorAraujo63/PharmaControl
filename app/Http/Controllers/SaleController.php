@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Services\SaleService;
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
     protected $saleService;
-
 
     public function __construct(SaleService $saleService)
     {
@@ -33,7 +31,7 @@ class SaleController extends Controller
             $sale = $this->saleService->createSale(
                 [
                     'client_name' => $request->client_name,
-                    'payment_method' => $request->payment_method
+                    'payment_method' => $request->payment_method,
                 ],
                 $request->items
             );

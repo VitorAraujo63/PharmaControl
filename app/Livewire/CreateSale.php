@@ -2,22 +2,21 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Services\SaleService;
-use Illuminate\Support\Collection;
 use Livewire\Attributes\Layout;
-use App\Models\Customer;
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class CreateSale extends Component
 {
-
     public $client_name = '';
+
     public $payment_method = 'money';
 
     public $items = [
-        ['product_id' => '', 'quantity' => 1]
+        ['product_id' => '', 'quantity' => 1],
     ];
 
     public $allProducts;
@@ -50,14 +49,12 @@ class CreateSale extends Component
 
         $customerId = $this->selectedCustomer ? $this->selectedCustomer->id : null;
 
-
-
         try {
             $saleService->createSale(
                 [
                     'client_name' => $this->selectedCustomer ? $this->selectedCustomer->name : ($this->client_name ?? 'Consumidor'),
                     'customer_id' => $customerId,
-                    'payment_method' => $this->payment_method
+                    'payment_method' => $this->payment_method,
                 ],
                 $this->items
             );
@@ -77,12 +74,17 @@ class CreateSale extends Component
     }
 
     public $customerSearch = '';
+
     public $customerResults = [];
+
     public ?Customer $selectedCustomer = null;
 
     public $showCustomerModal = false;
+
     public $new_c_name;
+
     public $new_c_cpf;
+
     public $new_c_phone;
 
     public function updatedCustomerSearch()
@@ -90,11 +92,12 @@ class CreateSale extends Component
         if (strlen($this->customerSearch) < 2) {
             $this->customerResults = [];
             $this->selectedCustomer = null;
+
             return;
         }
 
-        $this->customerResults = Customer::where('name', 'like', '%' . $this->customerSearch . '%')
-            ->orWhere('cpf', 'like', '%' . $this->customerSearch . '%')
+        $this->customerResults = Customer::where('name', 'like', '%'.$this->customerSearch.'%')
+            ->orWhere('cpf', 'like', '%'.$this->customerSearch.'%')
             ->take(5)
             ->get();
     }
@@ -110,15 +113,15 @@ class CreateSale extends Component
     {
         $this->validate([
             'new_c_name' => 'required|min:3',
-            'new_c_cpf'  => 'nullable',
-            'new_c_phone'=> 'nullable',
+            'new_c_cpf' => 'nullable',
+            'new_c_phone' => 'nullable',
         ]);
 
         $cpfLimpo = $this->new_c_cpf ? preg_replace('/[^0-9]/', '', $this->new_c_cpf) : null;
 
         $customer = \App\Models\Customer::create([
-            'name'  => strtoupper($this->new_c_name), // Força maiúsculo para ficar bonito no cupom
-            'cpf'   => $cpfLimpo,
+            'name' => strtoupper($this->new_c_name), // Força maiúsculo para ficar bonito no cupom
+            'cpf' => $cpfLimpo,
             'phone' => $this->new_c_phone,
         ]);
 
@@ -130,5 +133,4 @@ class CreateSale extends Component
 
         session()->flash('success_modal', 'Cliente cadastrado!');
     }
-
 }

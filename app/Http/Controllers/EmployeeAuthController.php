@@ -12,6 +12,7 @@ class EmployeeAuthController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
+
         return view('auth.login');
     }
 
@@ -29,7 +30,7 @@ class EmployeeAuthController extends Controller
         if (Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,
-            'status' => 'ativo'
+            'status' => 'ativo',
         ], $request->filled('remember'))) {
 
             $request->session()->regenerate();

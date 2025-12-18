@@ -18,7 +18,7 @@ class AuditObserver
         $changes = $model->getChanges();
         unset($changes['updated_at']);
 
-        if (!empty($changes)) {
+        if (! empty($changes)) {
             $this->log($model, 'UPDATE', $changes);
         }
     }
@@ -30,13 +30,15 @@ class AuditObserver
 
     private function log(Model $model, string $action, array $details)
     {
-        if (!Auth::check()) return;
+        if (! Auth::check()) {
+            return;
+        }
 
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => $action,
             'model' => class_basename($model),
-            'model_id' => $model->id,
+            'model_id' => $model->getKey(),
             'details' => $details,
             'ip_address' => request()->ip(),
         ]);

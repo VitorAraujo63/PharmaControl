@@ -2,17 +2,18 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use App\Models\SaleItem;
 use App\Exports\SalesProfitExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\SaleItem;
 use Carbon\Carbon;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 #[Layout('layouts.app')]
 class FinancialReport extends Component
 {
     public $start_date;
+
     public $end_date;
 
     public function mount()
@@ -25,15 +26,15 @@ class FinancialReport extends Component
     {
         return Excel::download(
             new SalesProfitExport($this->start_date, $this->end_date),
-            'lucratividade_' . time() . '.xlsx'
+            'lucratividade_'.time().'.xlsx'
         );
     }
 
     public function render()
     {
-        $itens = SaleItem::whereHas('sale', function($q) {
-            $q->whereBetween('created_at', [$this->start_date . ' 00:00:00', $this->end_date . ' 23:59:59'])
-              ->where('status', '!=', 'canceled');
+        $itens = SaleItem::whereHas('sale', function ($q) {
+            $q->whereBetween('created_at', [$this->start_date.' 00:00:00', $this->end_date.' 23:59:59'])
+                ->where('status', '!=', 'canceled');
         })->with(['batch'])->get();
 
         $faturamentoTotal = 0;
@@ -51,7 +52,7 @@ class FinancialReport extends Component
             'faturamento' => $faturamentoTotal,
             'custo' => $custoTotal,
             'lucro' => $lucroReal,
-            'margem' => $margemMedia
+            'margem' => $margemMedia,
         ]);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
 use App\Models\Batch;
-use Illuminate\Database\Seeder;
+use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             'min_stock_alert' => 20,
         ]);
 
-
         Batch::create([
             'product_id' => $dipirona->id,
             'batch_code' => 'LOTE-VELHO',
@@ -28,7 +27,6 @@ class DatabaseSeeder extends Seeder
             'expiration_date' => Carbon::now()->addDays(30),
         ]);
 
-
         Batch::create([
             'product_id' => $dipirona->id,
             'batch_code' => 'LOTE-NOVO',
@@ -36,8 +34,6 @@ class DatabaseSeeder extends Seeder
             'cost_price' => 4.50,
             'expiration_date' => Carbon::now()->addYear(),
         ]);
-
-
 
         $vitamina = Product::create([
             'name' => 'Vitamina C 1g',
@@ -54,7 +50,6 @@ class DatabaseSeeder extends Seeder
             'cost_price' => 12.00,
             'expiration_date' => Carbon::now()->addMonths(6),
         ]);
-
 
         Product::create([
             'name' => 'Antibiótico Raro (Sem Estoque)',

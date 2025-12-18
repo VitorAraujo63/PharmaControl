@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use PragmaRX\Google2FA\Google2FA;
 
 #[Layout('layouts.app')]
 class TwoFactorChallenge extends Component
@@ -15,7 +15,7 @@ class TwoFactorChallenge extends Component
     public function verify()
     {
         $user = Auth::user();
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
 
         if ($google2fa->verifyKey($user->google2fa_secret, $this->code)) {
             session()->put('2fa_verified', true);

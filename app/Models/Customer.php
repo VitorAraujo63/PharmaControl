@@ -10,6 +10,6 @@ class Customer extends Model
         'name',
         'cpf',
         'phone',
-        'email'
+        'email',
     ];
 }
